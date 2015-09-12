@@ -15,41 +15,53 @@ class Foo {
     var wordB : String!
     
     init (words: [String?]) {
-        wordA = words[0]?
-        wordB = words[1]?
+        wordA = words[0]
+        wordB = words[1]
     }
     
 //: [EXPLAIN YOUR ANSWER TO Q1 HERE]
+//:
+//: The compiler says that the optional chain has no effect, since the expression already produces String?. So, I removed the ?'s.
+//: This is optional chaining, where instead of forcing the unwrapping with String!, it fails gracefully when the String is nil.
     
-
+    
     
 //: ## Q2: Variable Types and Function Types
 //: Why does the compiler dislike the for loop? Also, what should we return?
     
-    func arePalindromes(words: [String]) -> Bool! {
+    static func arePalindromes(words: [String]) -> Bool! {
         let reversedWords = words.map() {String($0.characters.reverse())}
-        var numElements = words.count
+        let numElements = words.count
         
-        for let i = 0; i < numElements; i++ {
+        for (var i = 0; i < numElements; i++) {
             if words[i] != reversedWords[i] {
                 return false
             }
         }
         
-        return nil
+        return true
     }
     
 //: [EXPLAIN YOUR ANSWER TO Q2 HERE]
-    
-    
-    
+//:
+//: "let" makes "i" a constant. To increment it in the for loop, it should be a var (variable).
+//: "numElements", however, is a constant, and should be changed to "let".
+//:
+//: The for-loop needs paretheses around the conditions.
+//:
+//: We must return a Bool, so return true instead of nil if the word is a palindrome.
+//:
+//: I also had to change this method to be static
+
+
+
 //: ## Q3: More functions, and object initialization
 //: The method should be returning true or false -- what's wrong?
 //: Are we initializing the dictionary correctly?
-    func isAnagram(wordA: String, wordB: String) -> Bool? {
-        var countLetters : [Character : Int]
-        var lenA = wordA.characters.count
-        var lenB = wordB.characters.count
+    static func isAnagram(wordA: String, wordB: String) -> Bool? {
+        var countLetters = [Character : Int]()
+        let lenA = wordA.characters.count
+        let lenB = wordB.characters.count
         
         if lenA != lenB {
             return false
@@ -75,17 +87,24 @@ class Foo {
             }
         }
         
-        for (letter, count) in countLetters {
+        for (_, count) in countLetters {
             if count != 0 {
                 return false
             }
         }
         
-        return nil
+        return true
     }
 }
 
 //: [EXPLAIN YOUR ANSWER TO Q3 HERE]
+//:
+//: "lenA" and "lenB" are constants, so they should be changed to "let".
+//: "letter" was never used, so I replaced it with "_".
+//:
+//: The countLetters dictionary was declared (and with a ":" and not an "="), but not initialized.
+//:
+//: I also had to change this function to be static.
 
 
 //: **Do not** change anything below.
